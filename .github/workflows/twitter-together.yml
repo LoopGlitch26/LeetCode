@@ -17,6 +17,7 @@ jobs:
       - name: checkout main
         uses: actions/checkout@v2
       - name: Tweet
+      
         uses: gr2m/twitter-together@v1.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
