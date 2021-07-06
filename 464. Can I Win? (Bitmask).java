@@ -41,7 +41,29 @@ Constraints:
 
 
 class Solution {
-    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
-        
+  public boolean canIWin(int maxInt, int desiredTotal) {
+    if ((maxInt * (maxInt + 1)) / 2 < desiredTotal)
+      return false;
+    Boolean[] memo = new Boolean[1 << maxInt];
+    return canIWin(memo, maxInt, desiredTotal, 0, 0);  
+  }
+  private boolean canIWin(Boolean[] memo, int maxInt, int desiredTotal, int inUse, int total) {
+    if (memo[inUse] != null)
+      return memo[inUse];
+    
+    int mask = 1;
+    boolean result = false;
+    for (int i = 1; i <= maxInt; i++) {
+      if ((inUse & mask) == 0) {
+        int nextInUse = inUse | mask;
+        result = total + i >= desiredTotal || !canIWin(memo, maxInt, desiredTotal, nextInUse, total + i);    
+        if (result)
+          break;
+      }
+      
+      mask <<= 1;
     }
+    memo[inUse] = result;
+    return result;
+  }
 }
